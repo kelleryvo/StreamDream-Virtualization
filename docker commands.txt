@@ -1,0 +1,42 @@
+docker ps                                                               show all running containers
+docker ps -a                                                            show all existing containers (also not running ones)
+docker run -p 8080:8080 node-streamdream                                run streamdream container, map host port 8080 to container port 8080
+docker run -it --name test1 -v ~/folder/data:/data ubuntu bash          run container interactive and mount folder data as volume in container under /data
+
+docker logs <container-id>
+docker inspect <container-id>
+docker inspect test-mysql | grep IPAddress
+
+# BUILD node container
+docker build -t streamdream-node .
+docker run -it -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-ct -e DATABASE_HOST=streamdream-mysql-ct streamdream-node
+
+# ENV FILE for Environment Variables
+docker run -it --env-file ./env.list
+
+# RUN Mysql using Environment Variables from env.list file, latest mysql version
+docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
+docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
+
+https://severalnines.com/blog/mysql-docker-containers-understanding-basics
+
+# Enter bash of container
+docker exec -it streamdream-mysql-ct bash
+docker exec -it streamdream-node-ct bash
+
+mysql -u root -p
+pw1mysql!$
+
+https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pw1mysql!$'
+
+
+yt:
+https://www.youtube.com/watch?v=pOGVngLsaX4
+
+https://haddad.cloud/2017/04/dockerizing-a-nodejs-app/
+
+important:
+- never copy npm_modules folder when creating docker container image
+- give database host whith run command --> not localhost in server.js file!
