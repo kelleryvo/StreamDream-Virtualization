@@ -10,17 +10,23 @@ docker run -it --name test1 -v ~/folder/data:/data ubuntu bash          run cont
 ## Logs
 
 docker logs <container-id>
+
 docker inspect <container-id>
+
 docker inspect test-mysql | grep IPAddress
 
-## Running with Env File
+## Running with Env File
+
 docker run -it --env-file ./env.list
 
 # StreamDream node.js Container
+
 docker build -t streamdream-node .
+
 docker run -it -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-ct -e DATABASE_HOST=streamdream-mysql-ct streamdream-node
 
 ## MySQL - Run MySQL using Environment Variables from env.list file, MySQL v.5.7
+
 > Needs MySQL v. 5.7, 8.0 doesn't work properly --> authentication error with node.js app
 
 docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
