@@ -36,6 +36,8 @@ docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Developm
 
 docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
 
+docker run --name streamdream-mysql-ct -v ./data:/var/lib/mysql --env-file env.list -d mysql:5.7
+
 ## Enter bash of container
 
 docker exec -it streamdream-mysql-ct bash
