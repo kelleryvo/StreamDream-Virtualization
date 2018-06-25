@@ -38,7 +38,7 @@ docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Developm
 
 docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
 
-docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized\ apps/mysql/data/var/lib:/var/lib/mysql --env-file env.list -d mysql:5.7
+docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized_apps/mysql/data/var/lib:/var/lib/mysql --env-file env.list -d mysql:5.7
 
 ## Enter bash of container
 
@@ -60,7 +60,7 @@ $ kubectl proxy
 Dashboard abrufen:
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 
-## Weave scope
+## Weave scope
 Installieren:
 kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 
