@@ -30,6 +30,12 @@ docker run -it -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-
 
 docker run -d -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-ct -e DATABASE_HOST=streamdream-mysql-ct streamdream-node
 
+## Build and Push
+docker build -t itsfrdm/streamdream-node:1.0.0 .
+docker tag itsfrdm/streamdream-node itsfrdm/streamdream-node:1.0.0
+docker login
+docker push itsfrdm/streamdream-node:1.0.0
+
 ## MySQL - Run MySQL using Environment Variables from env.list file, MySQL v.5.7
 
 > Needs MySQL v. 5.7, 8.0 doesn't work properly --> authentication error with node.js app
@@ -38,7 +44,7 @@ docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Developm
 
 docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
 
-docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized_apps/mysql/data/var/lib:/var/lib/mysql --env-file env.list -d mysql:5.7
+docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized_apps/mysql/data/var/lib:/var/lib/mysql --env-file /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized_apps/mysql/env.list -d mysql:5.7
 
 ## Enter bash of container
 
@@ -48,7 +54,7 @@ docker exec -it streamdream-node-ct bash
 ## Log in to mysql container
 
 mysql -u root -p
-pw1mysql!$
+pw1mysql
 
 ## Kubernetes
 Dashboard aktivieren (optional):
@@ -59,6 +65,21 @@ $ kubectl proxy
 
 Dashboard abrufen:
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+Create Namespace:
+{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "streamdream",
+    "labels": {
+      "name": "streamdream"
+    }
+  }
+}
+
+Apply changes to deployment:
+$ kubectl apply -f depl.yaml
 
 ## Weave scope
 Installieren:
