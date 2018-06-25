@@ -1,10 +1,8 @@
 FROM node:latest
-RUN git clone https://github.com/kelleryvo/StreamDream.git ./app
-RUN git checkout dev
 WORKDIR /app
-COPY package.json /app
-COPY env.list /app
+COPY ./app/package.json /app
 RUN npm install
+COPY env.list /app
 COPY ./app /app
 CMD node server.js
 EXPOSE 8888

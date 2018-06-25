@@ -24,9 +24,11 @@ docker run -it --env-file ./env.list
 
 ## StreamDream node.js Container
 
-docker build -t streamdream-node .
+docker build -t streamdream-node --no-cache .
 
 docker run -it -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-ct -e DATABASE_HOST=streamdream-mysql-ct streamdream-node
+
+docker run -d -p 8888:8888 --name streamdream-node-ct --link streamdream-mysql-ct -e DATABASE_HOST=streamdream-mysql-ct streamdream-node
 
 ## MySQL - Run MySQL using Environment Variables from env.list file, MySQL v.5.7
 
@@ -36,7 +38,7 @@ docker run -p 3306:3306 --name streamdream-mysql-ct -v /Users/yvokeller/Developm
 
 docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/w901_/Volumes/mysql:/var/lib/mysql --env-file /Users/yvokeller/Development/github/w901_/Volumes/env.list -d mysql:5.7
 
-docker run --name streamdream-mysql-ct -v ./data:/var/lib/mysql --env-file env.list -d mysql:5.7
+docker run --name streamdream-mysql-ct -v /Users/yvokeller/Development/github/StreamDream-Virtualization/dockerized\ apps/mysql/data/var/lib:/var/lib/mysql --env-file env.list -d mysql:5.7
 
 ## Enter bash of container
 
@@ -47,6 +49,27 @@ docker exec -it streamdream-node-ct bash
 
 mysql -u root -p
 pw1mysql!$
+
+## Kubernetes
+Dashboard aktivieren (optional):
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+Proxy Starten:
+$ kubectl proxy
+
+Dashboard abrufen:
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+## Weave scope
+Installieren:
+kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+
+Port Forwarden:
+kubectl port-forward -n weave "$(kubectl get -n weave pod --selector=weave-scope-component=app \
+-o jsonpath='{.items..metadata.name}')" 4040
+
+Abrufen:
+http://localhost:4040
 
 # Important:
 
@@ -62,3 +85,5 @@ https://haddad.cloud/2017/04/dockerizing-a-nodejs-app/
 https://severalnines.com/blog/mysql-docker-containers-understanding-basics
 
 https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+
+https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
