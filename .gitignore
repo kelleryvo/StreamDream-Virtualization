@@ -63,3 +63,4 @@ typings/
 # custom
 *.DS_Store*
 data/
+volumes/
