@@ -92,6 +92,24 @@ kubectl port-forward -n weave "$(kubectl get -n weave pod --selector=weave-scope
 Abrufen:
 http://localhost:4040
 
+## Docker Volume (Tomcat)
+docker volume create tomcat-vol
+docker volume inspect tomcat-vol
+
+docker run --name tomcat-ct -it -p 7777:8080 -v /Users/yvokeller/tmp/tomcat-volume:/usr/local/tomcat tomcat:8.0
+
+docker run --name tomcat-ct -it -p 7777:8080 -v tomcat-vol:/usr/local/tomcat tomcat:8.0
+
+docker run --name tomcat-ct -it -p 7777:8080 tomcat:8.0
+
+
+run -v /Users/yvokeller/tmp/tomcat-volume:/test -it alpine:latest bash
+
+docker run -v /Users/yvokeller/tmp/tomcat-volume:/test -it ubuntu:16.04 bash
+
+docker run -v tomcat-vol:/Users/yvokeller/tmp/tomcat-volume -it ubuntu:16.04 bash
+
+
 # Important:
 
 - never copy npm_modules folder when creating docker container image
