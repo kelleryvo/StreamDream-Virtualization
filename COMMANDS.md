@@ -58,7 +58,7 @@ pw1mysql
 
 ## Kubernetes
 Dashboard aktivieren (optional):
-$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+$ kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/aio/deploy/recommended/kubernetes-dashboard.yaml
 
 Proxy Starten:
 $ kubectl proxy
